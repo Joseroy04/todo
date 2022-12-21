@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    {% csrf_token %}
+    {% load static %}
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %} ">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <script src="{% static 'js/bootstrap.min.js' %}"></script> 
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    </link>
+
+    <style>
+        .actio {
+  display: flex;
+  justify-content: center;
+}
+    </style>
+</head>
+
+<body>
+
+    <div class="flexdiv">
+        <div class="item1">
+            <form action="" method="post" class="form1 st1">
+                {% csrf_token %}
+                {{form.as_p}}
+                <input type="submit" value="submit">
+            </form>
+            {% if msg %}
+            <span style="color: green;">{{msg}}</span>
+            {% endif %}
+        </div>
+        <div class="table-responsive">
+            <table class="table table-primary ">
+                <thead>
+                    <tr>
+                        <th scope="col">created</th>
+                        <th scope="col">Updated</th>
+                        <th scope="col">tittle</th>
+                        <th scope="col">Task</th>
+                        <th scope="col" class="actio" ><span class="align-middle"> Action</span></th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for task in tasks %}
+                    
+                        {% if task.completed %}
+                        <tr class="table-secondary">
+                            <td scope="row" > <div style="display: flex;flex-direction: column;margin: 0px;"><span>{{task.created| date:"d M Y" }}</span><span>{{task.created|time:"h:i A" }}</span></div></td>
+                            <td > <div style="display: flex;flex-direction: column;margin: 0px;"><span>{{task.updated| date:"d M Y" }}</span><span>{{task.updated|time:"h:i A" }}</span></div></td>
+                            <td  style="text-decoration: line-through;">{{task.title}}</td>
+                            <td style="text-decoration: line-through;">{{task.task}}</td>
+                            <td >
+                                <div style="display:flex ;align-items: center;justify-content: flex-end;" >
+
+                                    <form action="notcomplete/{{task.id}}" method="post" class="deletecls" style="margin: auto 5px auto 5px; width: auto;">{% csrf_token %}
+                                        <input type="submit" value="Not Complete" class="btn btn-primary ">
+                                    </form>
+                                    <form action="edit/{{task.id}}" method="post" class="deletecls" style="margin: auto 5px auto 5px; width: auto;">{% csrf_token %}
+                                        <input type="submit" value="edit" class="btn btn-primary " style="background-color: green">
+                                    </form>
+                                    <form action="del/{{task.id}}" method="post" class="deletecls " style="margin: auto 5px auto 5px;">{% csrf_token %}
+                                        <input type="submit" value="delete" class="btn btn-primary" style="background-color: #d22121;">
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr class="">
+                        <td scope="row" > <div style="display: flex;flex-direction: column;margin: 0px;"><span>{{task.created| date:"d M Y" }}</span><span>{{task.created|time:"h:i A" }}</span></div></td>
+                        <td > <div style="display: flex;flex-direction: column;margin: 0px;"><span>{{task.updated| date:"d M Y" }}</span><span>{{task.updated|time:"h:i A" }}</span></div></td>
+                        <td >{{task.title}}</td>
+                            <td>{{task.task}}</td>
+                            <td >
+                                <div style="display:flex ;align-items: center;justify-content: flex-end;">
+                                    <form action="complete/{{task.id}}" method="post" class="deletecls" style="margin: auto 5px auto 5px; width: auto;">{% csrf_token %}
+                                        <input type="submit" value="Complete" class="btn btn-primary ">
+                                    </form>
+                                    <form action="edit/{{task.id}}" method="post" class="deletecls" style="margin: auto 5px auto 5px; width: auto;">{% csrf_token %}
+                                        <input type="submit" value="edit" class="btn btn-primary " style="background-color: green;">
+                                    </form>
+                                    <form action="del/{{task.id}}" method="post" class="deletecls " style="margin: auto 5px auto 5px;">{% csrf_token %}
+                                        <input type="submit" value="delete" class="btn btn-primary" style="background-color: #d22121;">
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+
+</body>
+
+</html>

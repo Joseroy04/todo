@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Page</title>
+    {% csrf_token %}
+    {% load static %}
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %} ">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <script src="{% static 'js/bootstrap.min.js' %}"></script> 
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    </link>
+
+    <style>
+        .actio {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="flexdiv">
+        <div class="item1">
+            <form action="{% url 'saveEditTask' pk=task.id %} " method="post" class="form1 st1">
+                {% csrf_token %}
+
+                <p>
+                    <label for="id_title">Tittle :</label>
+                    <input type="text" name="title" maxlength="50" required="" id="id_title" value="{{task.title}}">
+                </p>
+
+                <p>
+                    <label for="id_task">Task :</label>
+                    <textarea name="task" cols="40" rows="10" maxlength="1000" required="" id="id_task" wrap="soft|hard">{{task.task}}</textarea>
+                </p>
+                <input type="submit" value="submit">
+            </form>
+            {% if msg %}
+            <span style="color: green;">{{msg}}</span>
+            {% endif %}
+        </div>
+
+
+    </div>
+
+</body>
+
+</html>
